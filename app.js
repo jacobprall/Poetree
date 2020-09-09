@@ -10,25 +10,10 @@ app.get("/", (request, res) => {
   res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
-// create route to get single book by its isbn
-app.get("/books/:isbn", (request, response) => {
-  // make api call using fetch
-  fetch(
-    `http://openlibrary.org/api/books?bibkeys=ISBN:${request.params.isbn}&format=json&jscmd=data`
-  )
-    .then((response) => {
-      return response.text();
-    })
-    .then((body) => {
-      let results = JSON.parse(body);
-      console.log(results); // logs to server
-      response.send(results); // sends to frontend
-    });
-});
-
+// fetch(` https://api.datamuse.com/words?${request.query.string}`);
 // create a search route
-app.get("/search", (request, response) => {
-  fetch(`http://openlibrary.org/search.json?q=${request.query.string}`)
+app.get("/words", (request, response) => {
+  fetch(`https://api.datamuse.com/words?rel_trg=${request.data.rel_trg}&max=40`)
     .then((response) => {
       return response.text();
     })

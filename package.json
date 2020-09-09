@@ -8,6 +8,7 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^8.1.0",
     "babel-preset-es2015": "^6.24.1",
+    "d3-selection": "^2.0.0",
     "express": "^4.17.1",
     "node": "^14.8.0",
     "node-fetch": "^2.6.1",
@@ -18,8 +19,9 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "wp": "run webpack --watch --mode=development",
-    "start": "node app.js"
+    "wp": "webpack --watch --mode=development",
+    "start": "node app.js",
+    "server": "nodemon --inspect app.js"
   },
   "keywords": [],
   "author": "",
