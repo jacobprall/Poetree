@@ -22,8 +22,8 @@ window.onload = async () => {
 
   searchForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const leftWord = document.getElementById("noun-search");
-    const rightWord = document.getElementById("verb-search");
+    const leftWord = document.getElementById("noun-search").value;
+    const rightWord = document.getElementById("verb-search").value;
     if (!leftWord || !rightWord) {
       displayError("Please enter a word");
       return;

@@ -29,6 +29,14 @@ body {
   justify-content: space-between;
 }
 
+.logo {
+  width: 50px;
+  height: 100px;
+  margin-right: 20px;
+  margin-top: 5px;
+  padding: 0;
+}
+
 .title {
   color: white;
   font-family: "Kaushan Script", cursive;
@@ -174,4 +182,7 @@ body {
   background-color: #bc986a;
   color: white;
   text-align: center;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }

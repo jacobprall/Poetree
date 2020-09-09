@@ -52,7 +52,7 @@ export const fetchLeft = (search) => {
     .then((response) => response.data)
     .then((words) => arrayify(words))
     .then(async (wordsArray) => {
-      const nextQuery = wordsArray[Math.floor(20 * Math.random())];
+      const nextQuery = shuffle(wordsArray)[0];
       console.log(nextQuery);
       const secondQuery = await axios
         .get(`https://api.datamuse.com/words?rel_trg=${nextQuery}&max=20`)
@@ -73,11 +73,9 @@ export const fetchRight = async (search) => {
     .then((response) => response.data)
     .then((words) => {
       let wordsArray = [];
-      while (wordsArray.length <= 20) {
-        words.forEach((wordObj) => {
-          wordsArray.push(wordObj.word);
-        });
-      }
+      words.forEach((wordObj) => {
+        wordsArray.push(wordObj.word);
+      });
       return wordsArray;
     });
   return right;
@@ -94,16 +92,14 @@ export const generateTiles = (wordsArray) => {
     wordRectangle.style.top = rectangle.top + "px";
     wordRectangle.style.transform = `rotate(${degrees}deg)`;
   }
-
-
 };
 
 export const shuffle = (wordArray) => {
-    for (let i = wordArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * i);
-      const temp = wordArray[i];
-      wordArray[i] = wordArray[j];
-      wordArray[j] = temp;
-    }
-    return wordArray;
-  };
+  for (let i = wordArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * i);
+    const temp = wordArray[i];
+    wordArray[i] = wordArray[j];
+    wordArray[j] = temp;
+  }
+  return wordArray;
+};

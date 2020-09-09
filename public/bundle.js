@@ -2155,8 +2155,8 @@ window.onload = async () => {
 
   searchForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const leftWord = document.getElementById("noun-search");
-    const rightWord = document.getElementById("verb-search");
+    const leftWord = document.getElementById("noun-search").value;
+    const rightWord = document.getElementById("verb-search").value;
     if (!leftWord || !rightWord) {
       displayError("Please enter a word");
       return;
@@ -2254,7 +2254,7 @@ const fetchLeft = (search) => {
     .then((response) => response.data)
     .then((words) => arrayify(words))
     .then(async (wordsArray) => {
-      const nextQuery = wordsArray[Math.floor(20 * Math.random())];
+      const nextQuery = shuffle(wordsArray)[0];
       console.log(nextQuery);
       const secondQuery = await axios
         .get(`https://api.datamuse.com/words?rel_trg=${nextQuery}&max=20`)
@@ -2275,11 +2275,9 @@ const fetchRight = async (search) => {
     .then((response) => response.data)
     .then((words) => {
       let wordsArray = [];
-      while (wordsArray.length <= 20) {
-        words.forEach((wordObj) => {
-          wordsArray.push(wordObj.word);
-        });
-      }
+      words.forEach((wordObj) => {
+        wordsArray.push(wordObj.word);
+      });
       return wordsArray;
     });
   return right;
@@ -2296,19 +2294,17 @@ const generateTiles = (wordsArray) => {
     wordRectangle.style.top = rectangle.top + "px";
     wordRectangle.style.transform = `rotate(${degrees}deg)`;
   }
-
-
 };
 
 const shuffle = (wordArray) => {
-    for (let i = wordArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * i);
-      const temp = wordArray[i];
-      wordArray[i] = wordArray[j];
-      wordArray[j] = temp;
-    }
-    return wordArray;
-  };
+  for (let i = wordArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * i);
+    const temp = wordArray[i];
+    wordArray[i] = wordArray[j];
+    wordArray[j] = temp;
+  }
+  return wordArray;
+};
 
 
 /***/ })
