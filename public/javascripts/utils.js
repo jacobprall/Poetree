@@ -1,4 +1,5 @@
 const axios = require("axios");
+const d3 = require("d3-selection");
 
 export const BASIC_WORDS = "the the the s s with as more they be we she he it and any do why ing ed that and and very I I I most have had for not it it who is are is you you you".split(
   " "
@@ -16,15 +17,15 @@ export const arrayify = (words) => {
 
 export const addNewWord = (word, i) => {
   const wordSpan = document.createElement("span");
-  if (i < 50) {
+  if (i < 40) {
     wordSpan.className = "word green";
   }
-  if (i < 70 && i >= 50) {
-    wordSpan.className = "word red";
+  if (i < 80 && i >= 40) {
+    wordSpan.className = "word orange";
   }
 
-  if (i > 70) {
-    wordSpan.className = "word orange";
+  if (i >= 80) {
+    wordSpan.className = "word red";
   }
   wordSpan.innerHTML = word;
 
@@ -42,7 +43,6 @@ export const addNewWord = (word, i) => {
   // if (localStorage.getItem("background-color")) {
   //   wordSpan.style.backgroundColor = localStorage.getItem("background-color");
   // }
-  console.log(wordSpan);
   document.getElementById("words").appendChild(wordSpan);
 };
 
@@ -52,8 +52,8 @@ export const fetchLeft = (search) => {
     .then((response) => response.data)
     .then((words) => arrayify(words))
     .then(async (wordsArray) => {
-      const nextQuery = wordsArray[Math.floor(20 * Math.random())];
-      console.log(nextQuery);
+      const nextQuery = shuffle(wordsArray)[0];
+
       const secondQuery = await axios
         .get(`https://api.datamuse.com/words?rel_trg=${nextQuery}&max=20`)
         .then((response) => response.data)
@@ -69,19 +69,30 @@ export const fetchLeft = (search) => {
 
 export const fetchRight = async (search) => {
   const right = await axios
-    .get(`https://api.datamuse.com/words?rel_trg=${search}&max=20`)
+    .get(`https://api.datamuse.com/words?rel_trg=${search}&max=40`)
     .then((response) => response.data)
     .then((words) => {
       let wordsArray = [];
-      while (wordsArray.length <= 20) {
-        words.forEach((wordObj) => {
-          wordsArray.push(wordObj.word);
-        });
-      }
+      words.forEach((wordObj) => {
+        wordsArray.push(wordObj.word);
+      });
       return wordsArray;
     });
   return right;
 };
+
+export const fetchRhymes = async (search) => {
+  const result = await axios.get(
+    `https://api.datamuse.com/words?rel_rhy=${search}&max=10`
+  ).then((response) => response.data).then((words) => {
+    let wordsArray = [];
+    words.forEach(wordObj => {
+      wordsArray.push(wordObj.word)
+    });
+    return wordsArray
+  });
+  return result;
+}
 
 export const generateTiles = (wordsArray) => {
   for (let i = wordsArray.length - 1; i >= 0; i--) {
@@ -94,16 +105,104 @@ export const generateTiles = (wordsArray) => {
     wordRectangle.style.top = rectangle.top + "px";
     wordRectangle.style.transform = `rotate(${degrees}deg)`;
   }
-
-
 };
 
 export const shuffle = (wordArray) => {
-    for (let i = wordArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * i);
-      const temp = wordArray[i];
-      wordArray[i] = wordArray[j];
-      wordArray[j] = temp;
+  for (let i = wordArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * i);
+    const temp = wordArray[i];
+    wordArray[i] = wordArray[j];
+    wordArray[j] = temp;
+  }
+  return wordArray;
+};
+
+export const addCustomWord = (customForm) => {
+  customForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const customWord = document.getElementById("custom-word-input").value;
+    if (customWord.length === 0) {
+      displayError(" Enter a Word");
+      return;
     }
-    return wordArray;
+    const wordsDiv = document.getElementById("words");
+    const lastSpanId = wordsDiv.lastElementChild.id;
+    const newWordIdx = parseInt(lastSpanId.split("-")[1]) + 2;
+    addNewWord(customWord, newWordIdx);
+    document.getElementById("custom-word-input").value = "";
+    const wordRect = document.getElementById(`word-${newWordIdx}`);
+    const degrees = -3 + Math.random() * 6;
+    wordRect.style.position = "absolute";
+    wordRect.style.left = "50px";
+    wordRect.style.top = "210px";
+    wordRect.style.zIndex = 2;
+    wordRect.style.transform = `rotate(${degrees}deg)`;
+  });
+};
+const displayError = (error) => {
+  const alert = dcoument.getElementById("alert");
+  const alertText = document.getElementById("alert-text");
+  alert.style.display = "block";
+  alertText.innerHTML = error;
+  const closeButton = document.getElementById("alert-close");
+  closeButton.addEventListener("click", (e) => {
+    alert.style.display = "none";
+  });
+};
+
+export const drag = (id) => {
+  const word = document.getElementById(id);
+
+  const startMoveAt = (x, y) => {
+    word.style.left = x + word.offsetX + "px";
+    word.style.top = y + word.offsetY + "px";
   };
+
+  const moveAt = (x, y) => {
+    word.style.left = x - 40 + "px";
+    word.style.top = y - 50 + "px";
+  };
+
+  const onMouseMove = (e) => {
+    console.log(e);
+    moveAt(e.pageX, e.pageY);
+    let elementBelow = document.elementFromPoint(e.clientX, e.clientY);
+    if (!elementBelow) return;
+  };
+
+  const onMouseup = (e) => {
+    document.removeEventListener("mousemove", onMouseMove);
+    word.style.cursor = "grab";
+    word.style.filter = "";
+  };
+
+  word.onmousedown = (e) => {
+    word.style.position = "absolute";
+    word.style.zIndex += 10;
+    word.style.cursor = "grabbing";
+    word.style.filter = "drop-shadow(3px 3px 3px grey)";
+    console.log(e);
+    startMoveAt(e.x, e.y);
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseup);
+  };
+};
+
+export const saveWord = (id) => {
+  const savedText = document.getElementById("saved-text");
+  savedText.innerHTML += " " + document.getElementById(id).textContent;
+};
+
+
+export const downloadToFile = (content, filename, contentType) => {
+  const a = document.createElement("a");
+  const file = new Blob([content], { type: contentType });
+
+  a.href = URL.createObjectURL(file);
+  a.download = filename;
+  a.click();
+
+  URL.revokeObjectURL(a.href);
+};
+
+
