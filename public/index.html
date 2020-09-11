@@ -9,6 +9,17 @@
       href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3-dispatch.v2.min.js"></script>
+    <script src="https://d3js.org/d3-selection.v2.min.js"></script>
+    <script src="https://d3js.org/d3-drag.v2.min.js"></script>
+    <script>
+      var drag = d3.drag();
+    </script>
 
     <title>Document</title>
   </head>
@@ -20,37 +31,113 @@
           <p class="tagline">a tool for the blocked writer</p>
         </div>
         <div class="right-header">
-          <a href="">github</a>
-          <a href="">linkedin</a>
+          <a href="/">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="/"><i class="fab fa-linkedin-in"></i></a>
         </div>
       </div>
     </header>
-    <div id="words"></div>
+
     <div class="tree">
+      <div id="words"></div>
       <img src="./images/african-tree-silhouette.jpg" alt="" />
     </div>
-
+    <!-- <div id="style-controls">
+      <div class="dropdown">
+        <button class="drop-btn">Font</button>
+        <div class="dropdown-content" id="font-drop">
+          <div style="font-family: 'Times New Roman', Times, serif">
+            Times New Roman
+          </div>
+          <div style="font-family: 'Courier New', Courier, monospace">
+            Courier New
+          </div>
+          <div style="font-family: 'Comic Sans MS'">Comic Sans</div>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="drop-btn">Font Size</button>
+        <div class="dropdown-content" id="font-size-drop">
+          <div class="font-size" id="size1" style="font-size: 10pt">10pt</div>
+          <div class="font-size" id="size2" style="font-size: 12pt">12pt</div>
+          <div class="font-size" id="size3" style="font-size: 14pt">14pt</div>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="drop-btn" id="magnet-color-button">Magnet Color</button>
+        <div class="dropdown-content" id="magnet-color-drop">
+          <span
+            class="color-square"
+            id="background-color_#FFEBEE"
+            style="background-color: #ffebee"
+          ></span>
+          <span
+            class="color-square"
+            id="background-color_#FBE9E7"
+            style="background-color: #fbe9e7"
+          ></span>
+          <span
+            class="color-square"
+            id="background-color_#FFFDE7"
+            style="background-color: #fffde7"
+          ></span>
+          <span
+            class="color-square"
+            id="background-color_#E8F5E9"
+            style="background-color: #e8f5e9"
+          ></span>
+          <span
+            class="color-square"
+            id="background-color_#E3F2FD"
+            style="background-color: #e3f2fd"
+          ></span>
+          <span
+            class="color-square"
+            id="background-color_#EDE7F6"
+            style="background-color: #ede7f6"
+          ></span>
+          <span
+            class="color-square"
+            id="background-color_white"
+            style="background-color: white"
+          ></span>
+        </div>
+      </div>
+    </div> -->
     <div class="search">
       <form id="search-form">
         <p>Enter a noun and verb to generate new words</p>
-        <input id="noun-search" type="text" placeholder="Noun" />
-        <input id="verb-search" type="text" placeholder="Verb" />
+        <input id="noun-search" type="text" placeholder="Word 1" />
+        <input id="verb-search" type="text" placeholder="Word 2" />
+        <input id="rhyme-search" type="text" placeholder="Rhymes With" />
         <input type="submit" value="Find Words" id="search-button" />
+      </form>
+      <form id="custom-word-form">
+        <p>Enter a Word to Add Above</p>
+        <input
+          type="text"
+          id="custom-word-input"
+          placeholder="Your word here"
+        />
+        <input type="submit" value="Add Word" id="add-word-button" />
       </form>
     </div>
     <div class="user-settings"></div>
     <div class="user-area">
-      <div class="word-arrangement"></div>
+      <div id="word-arrangement"></div>
 
-      <div class="saved-text"></div>
+      <textarea
+        id="saved-text"
+        placeholder="Double Click a word to add it to your saved words"
+      ></textarea>
       <div class="user-buttons">
-        <button>Save Current Selection</button>
-        <button>Export Current Saved Words</button>
+        <button id="clear-saved-words">Clear Saved Words</button>
+        <button id="download-words">Export Current Saved Words</button>
       </div>
     </div>
     <footer class="footer">
-          <img class="logo" src="./images/Untitled3.svg" alt="" />
-
+      <img class="logo" src="./images/Untitled3.svg" alt="" />
     </footer>
   </body>
 </html>
