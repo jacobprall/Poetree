@@ -4234,7 +4234,7 @@ const drag = (id) => {
   };
 
   const moveAt = (x, y) => {
-    word.style.left = x - 40 + "px";
+    word.style.left = x - 60 + "px";
     word.style.top = y - 50 + "px";
   };
 

@@ -31,18 +31,6 @@ export const addNewWord = (word, i) => {
 
   wordSpan.id = `word-${i}`;
   wordSpan.style.zIndex = 0;
-  // if (localStorage.getItem("fontSize")) {
-  //   wordSpan.style.fontSize = localStorage.getItem("fontSize");
-  // }
-  // if (localStorage.getItem("fontFamily")) {
-  //   wordSpan.style.fontFamily = localStorage.getItem("fontFamily");
-  // }
-  // if (localStorage.getItem("color")) {
-  //   wordSpan.style.color = localStorage.getItem("color");
-  // }
-  // if (localStorage.getItem("background-color")) {
-  //   wordSpan.style.backgroundColor = localStorage.getItem("background-color");
-  // }
   document.getElementById("words").appendChild(wordSpan);
 };
 
@@ -59,7 +47,6 @@ export const fetchLeft = (search) => {
         .then((response) => response.data)
         .then((words) => arrayify(words));
       const allLeft = wordsArray.concat(secondQuery);
-      //filter results to remove duplicates
       return allLeft.filter((word, i) => allLeft.indexOf(word) === i);
     })
     .then((wordsArray) => {
@@ -159,7 +146,7 @@ export const drag = (id) => {
   };
 
   const moveAt = (x, y) => {
-    word.style.left = x - 40 + "px";
+    word.style.left = x - 60 + "px";
     word.style.top = y - 50 + "px";
   };
 
