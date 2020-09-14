@@ -20,6 +20,16 @@ body {
   justify-content: space-between;
 }
 
+.right-header {
+  display: flex;
+  width: 100px;
+  justify-content: space-around;
+}
+
+.right-header a {
+  padding: 30px;
+}
+
 .logo {
   width: 50px;
   height: 100px;
@@ -41,6 +51,16 @@ body {
   margin-right: 20px;
 }
 .right-header a {
+  padding: 25px;
+  z-index: 5;
+  text-decoration: none;
+  color: #452b29;
+}
+
+.right-header a:hover {
+  background: #72d4df;
+  transition: 0.3s;
+  border-radius: 5px;
 }
 .fab {
   width: 100%;
@@ -202,6 +222,34 @@ body {
   padding: 10px;
 }
 
+#search-button {
+  background: #94353c;
+  color: white;
+  border: 0px;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+#search-button:hover {
+  cursor: pointer;
+  transition: 0.3s;
+  background: #6e615a;
+}
+
+#add-word-button {
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 0px;
+  background: #cf5230;
+  color: white;
+}
+
+#add-word-button:hover {
+  background: #6e352c;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
 /* .user-settings {
   border: 1px solid black;
   height: 200px;
@@ -246,6 +294,34 @@ body {
 
 .user-buttons button {
   padding: 10px;
+}
+
+#clear-saved-words {
+  background: #6e612f;
+  border-radius: 5px;
+  border: 0px;
+  color: white;
+}
+
+#clear-saved-words:hover {
+  transition: 0.3s;
+  background: #c2c290;
+  color: white;
+  cursor: pointer;
+}
+
+#download-words {
+  background: white;
+  border-radius: 5px;
+  border: 1px solid #4a572c;
+  color: #4a572c;
+}
+
+#download-words:hover {
+  background: #4a572c;
+  color: white;
+  transition: 0.3s;
+  cursor: pointer;
 }
 
 .footer {
