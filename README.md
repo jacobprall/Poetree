@@ -78,4 +78,4 @@ export const generateTiles = (wordsArray) => {
 ### Future Directions
 * Customizability of the font, style and color of the words.
 
-[Alt Text](https://github.com/jacobprall/Poetree/blob/master/Sep-13-2020%2017-59-42.gif)
+![Alt Text](https://github.com/jacobprall/Poetree/blob/master/Sep-13-2020%2017-59-42.gif)
