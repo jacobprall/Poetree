@@ -9,7 +9,7 @@ import {
   shuffle,
   downloadToFile,
   fetchRhymes,
-} from "./utils";
+} from "./public/javascripts/utils";
 
 // helpers
 

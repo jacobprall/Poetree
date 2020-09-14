@@ -169,7 +169,7 @@ export const drag = (id) => {
     word.style.cursor = "grabbing";
     word.style.filter = "drop-shadow(3px 3px 3px grey)";
     console.log(e);
-    startMoveAt(e.x, e.y);
+    startMoveAt(e.x, e.y);g
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseup);
   };
