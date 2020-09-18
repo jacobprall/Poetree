@@ -147,11 +147,10 @@ export const drag = (id) => {
 
   const moveAt = (x, y) => {
     word.style.left = x - 60 + "px";
-    word.style.top = y - 50 + "px";
+    word.style.top = (y - 50) + "px";
   };
 
   const onMouseMove = (e) => {
-    console.log(e);
     moveAt(e.pageX, e.pageY);
     let elementBelow = document.elementFromPoint(e.clientX, e.clientY);
     if (!elementBelow) return;
@@ -168,8 +167,7 @@ export const drag = (id) => {
     word.style.zIndex += 10;
     word.style.cursor = "grabbing";
     word.style.filter = "drop-shadow(3px 3px 3px grey)";
-    console.log(e);
-    startMoveAt(e.x, e.y);g
+    startMoveAt(e.x, e.y);
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseup);
   };
