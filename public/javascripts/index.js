@@ -49,7 +49,6 @@ window.onload = async () => {
     const rhymeWord = document.getElementById("rhyme-search").value;
       await fetchLeft(leftWord)
         .then(async (wordsArray) => {
-          console.log('hit')
           const right = await fetchRight(rightWord);
           const rhymes = await fetchRhymes(rhymeWord);
           const all = wordsArray.concat(right).concat(rhymes);

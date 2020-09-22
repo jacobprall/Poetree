@@ -4014,7 +4014,6 @@ window.onload = async () => {
     const rhymeWord = document.getElementById("rhyme-search").value;
       await Object(_utils__WEBPACK_IMPORTED_MODULE_0__["fetchLeft"])(leftWord)
         .then(async (wordsArray) => {
-          console.log('hit')
           const right = await Object(_utils__WEBPACK_IMPORTED_MODULE_0__["fetchRight"])(rightWord);
           const rhymes = await Object(_utils__WEBPACK_IMPORTED_MODULE_0__["fetchRhymes"])(rhymeWord);
           const all = wordsArray.concat(right).concat(rhymes);
@@ -4092,9 +4091,9 @@ const BASIC_WORDS = "the the the s s with as more they be we she he it and any d
 
 const arrayify = (words) => {
   let wordsArray = [];
-    words.forEach((wordObj) => {
-      wordsArray.push(wordObj.word);
-    });
+  words.forEach((wordObj) => {
+    wordsArray.push(wordObj.word);
+  });
   return wordsArray;
 };
 
@@ -4161,17 +4160,18 @@ const fetchRight = async (search) => {
 
 const fetchRhymes = async (search) => {
   if (search === "") search = "tree";
-  const result = axios.get(
-    `https://api.datamuse.com/words?rel_rhy=${search}&max=7`
-  ).then((response) => response.data).then((words) => {
-    let wordsArray = [];
-    words.forEach(wordObj => {
-      wordsArray.push(wordObj.word)
+  const result = axios
+    .get(`https://api.datamuse.com/words?rel_rhy=${search}&max=7`)
+    .then((response) => response.data)
+    .then((words) => {
+      let wordsArray = [];
+      words.forEach((wordObj) => {
+        wordsArray.push(wordObj.word);
+      });
+      return wordsArray;
     });
-    return wordsArray
-  });
   return result;
-}
+};
 
 const generateTiles = (wordsArray) => {
   for (let i = wordsArray.length - 1; i >= 0; i--) {
@@ -4198,13 +4198,14 @@ const shuffle = (wordArray) => {
 
 const addCustomWord = (customForm) => {
   customForm.addEventListener("submit", (e) => {
+    console.log("hit");
     e.preventDefault();
     const customWord = document.getElementById("custom-word-input").value;
     if (customWord.length === 0) {
       displayError(" Enter a Word");
       return;
     }
-    const wordsDiv = document.getElementById("words");
+    const wordsDiv = document.getElementById("word-tier-3");
     const lastSpanId = wordsDiv.lastElementChild.id;
     const newWordIdx = parseInt(lastSpanId.split("-")[1]) + 2;
     addNewWord(customWord, newWordIdx);
@@ -4219,7 +4220,7 @@ const addCustomWord = (customForm) => {
   });
 };
 const displayError = (error) => {
-  const alert = dcoument.getElementById("alert");
+  const alert = document.getElementById("alert");
   const alertText = document.getElementById("alert-text");
   alert.style.display = "block";
   alertText.innerHTML = error;
@@ -4239,7 +4240,7 @@ const drag = (id) => {
 
   const moveAt = (x, y) => {
     word.style.left = x - 60 + "px";
-    word.style.top = (y - 50) + "px";
+    word.style.top = y - 30 + "px";
   };
 
   const onMouseMove = (e) => {
@@ -4270,7 +4271,6 @@ const saveWord = (id) => {
   savedText.innerHTML += " " + document.getElementById(id).textContent;
 };
 
-
 const downloadToFile = (content, filename, contentType) => {
   const a = document.createElement("a");
   const file = new Blob([content], { type: contentType });
@@ -4281,8 +4281,6 @@ const downloadToFile = (content, filename, contentType) => {
 
   URL.revokeObjectURL(a.href);
 };
-
-
 
 
 /***/ })
