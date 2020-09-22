@@ -17,7 +17,7 @@ window.onload = async () => {
   localStorage.clear();
   const allWords = await fetchLeft("plant").then(async (wordsArray) => {
     const right = await fetchRight("write");
-    const rhymes = await fetchRhymes("tree")
+    const rhymes = await fetchRhymes("log")
     //sorting algorithm for random shuffle Fisher-Yates Algorithm
     const all = shuffle(wordsArray.concat(right).concat(rhymes));
     return all;
@@ -29,17 +29,27 @@ window.onload = async () => {
   });
   // format and place dom elements
   generateTiles(allWords);
+
+
+
   const customWordForm = document.getElementById("custom-word-form");
   addCustomWord(customWordForm);
   const searchForm = document.getElementById("search-form");
 
+
+
+
+
   searchForm.addEventListener("submit", async (e) => {
+    
+
     e.preventDefault();
     const leftWord = document.getElementById("noun-search").value;
     const rightWord = document.getElementById("verb-search").value;
-    const rhymeWord = document.getElementById("rhyme-search").value
+    const rhymeWord = document.getElementById("rhyme-search").value;
       await fetchLeft(leftWord)
         .then(async (wordsArray) => {
+          console.log('hit')
           const right = await fetchRight(rightWord);
           const rhymes = await fetchRhymes(rhymeWord);
           const all = wordsArray.concat(right).concat(rhymes);

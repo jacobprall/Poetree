@@ -7,43 +7,48 @@ export const BASIC_WORDS = "the the the s s with as more they be we she he it an
 
 export const arrayify = (words) => {
   let wordsArray = [];
-  while (wordsArray.length <= 20) {
     words.forEach((wordObj) => {
       wordsArray.push(wordObj.word);
     });
-  }
   return wordsArray;
 };
 
 export const addNewWord = (word, i) => {
   const wordSpan = document.createElement("span");
-  if (i < 40) {
+  if (i <= 13) {
     wordSpan.className = "word green";
   }
-  if (i < 80 && i >= 40) {
+  if (i < 34 && i >= 14) {
     wordSpan.className = "word orange";
   }
 
-  if (i >= 80) {
+  if (i >= 34) {
     wordSpan.className = "word red";
   }
   wordSpan.innerHTML = word;
 
   wordSpan.id = `word-${i}`;
   wordSpan.style.zIndex = 0;
-  document.getElementById("words").appendChild(wordSpan);
+  if (i <= 13) {
+    document.getElementById("word-tier-1").appendChild(wordSpan);
+  } else if (i < 34) {
+    document.getElementById("word-tier-2").appendChild(wordSpan);
+  } else if (i >= 34) {
+    document.getElementById("word-tier-3").appendChild(wordSpan);
+  }
 };
 
 export const fetchLeft = (search) => {
+  if (search === "") search = "tree";
   return axios
-    .get(`https://api.datamuse.com/words?rel_trg=${search}&max=20`)
+    .get(`https://api.datamuse.com/words?rel_trg=${search}&max=5`)
     .then((response) => response.data)
     .then((words) => arrayify(words))
     .then(async (wordsArray) => {
       const nextQuery = shuffle(wordsArray)[0];
 
       const secondQuery = await axios
-        .get(`https://api.datamuse.com/words?rel_trg=${nextQuery}&max=20`)
+        .get(`https://api.datamuse.com/words?rel_trg=${nextQuery}&max=5`)
         .then((response) => response.data)
         .then((words) => arrayify(words));
       const allLeft = wordsArray.concat(secondQuery);
@@ -55,8 +60,9 @@ export const fetchLeft = (search) => {
 };
 
 export const fetchRight = async (search) => {
+  if (search === "") return [];
   const right = await axios
-    .get(`https://api.datamuse.com/words?rel_trg=${search}&max=40`)
+    .get(`https://api.datamuse.com/words?rel_trg=${search}&max=7`)
     .then((response) => response.data)
     .then((words) => {
       let wordsArray = [];
@@ -69,8 +75,9 @@ export const fetchRight = async (search) => {
 };
 
 export const fetchRhymes = async (search) => {
-  const result = await axios.get(
-    `https://api.datamuse.com/words?rel_rhy=${search}&max=10`
+  if (search === "") search = "tree";
+  const result = axios.get(
+    `https://api.datamuse.com/words?rel_rhy=${search}&max=7`
   ).then((response) => response.data).then((words) => {
     let wordsArray = [];
     words.forEach(wordObj => {

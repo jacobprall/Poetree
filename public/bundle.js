@@ -3982,7 +3982,7 @@ window.onload = async () => {
   localStorage.clear();
   const allWords = await Object(_utils__WEBPACK_IMPORTED_MODULE_0__["fetchLeft"])("plant").then(async (wordsArray) => {
     const right = await Object(_utils__WEBPACK_IMPORTED_MODULE_0__["fetchRight"])("write");
-    const rhymes = await Object(_utils__WEBPACK_IMPORTED_MODULE_0__["fetchRhymes"])("tree")
+    const rhymes = await Object(_utils__WEBPACK_IMPORTED_MODULE_0__["fetchRhymes"])("log")
     //sorting algorithm for random shuffle Fisher-Yates Algorithm
     const all = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["shuffle"])(wordsArray.concat(right).concat(rhymes));
     return all;
@@ -3994,17 +3994,27 @@ window.onload = async () => {
   });
   // format and place dom elements
   Object(_utils__WEBPACK_IMPORTED_MODULE_0__["generateTiles"])(allWords);
+
+
+
   const customWordForm = document.getElementById("custom-word-form");
   Object(_utils__WEBPACK_IMPORTED_MODULE_0__["addCustomWord"])(customWordForm);
   const searchForm = document.getElementById("search-form");
 
+
+
+
+
   searchForm.addEventListener("submit", async (e) => {
+    
+
     e.preventDefault();
     const leftWord = document.getElementById("noun-search").value;
     const rightWord = document.getElementById("verb-search").value;
-    const rhymeWord = document.getElementById("rhyme-search").value
+    const rhymeWord = document.getElementById("rhyme-search").value;
       await Object(_utils__WEBPACK_IMPORTED_MODULE_0__["fetchLeft"])(leftWord)
         .then(async (wordsArray) => {
+          console.log('hit')
           const right = await Object(_utils__WEBPACK_IMPORTED_MODULE_0__["fetchRight"])(rightWord);
           const rhymes = await Object(_utils__WEBPACK_IMPORTED_MODULE_0__["fetchRhymes"])(rhymeWord);
           const all = wordsArray.concat(right).concat(rhymes);
@@ -4082,59 +4092,51 @@ const BASIC_WORDS = "the the the s s with as more they be we she he it and any d
 
 const arrayify = (words) => {
   let wordsArray = [];
-  while (wordsArray.length <= 20) {
     words.forEach((wordObj) => {
       wordsArray.push(wordObj.word);
     });
-  }
   return wordsArray;
 };
 
 const addNewWord = (word, i) => {
   const wordSpan = document.createElement("span");
-  if (i < 40) {
+  if (i <= 13) {
     wordSpan.className = "word green";
   }
-  if (i < 80 && i >= 40) {
+  if (i < 34 && i >= 14) {
     wordSpan.className = "word orange";
   }
 
-  if (i >= 80) {
+  if (i >= 34) {
     wordSpan.className = "word red";
   }
   wordSpan.innerHTML = word;
 
   wordSpan.id = `word-${i}`;
   wordSpan.style.zIndex = 0;
-  // if (localStorage.getItem("fontSize")) {
-  //   wordSpan.style.fontSize = localStorage.getItem("fontSize");
-  // }
-  // if (localStorage.getItem("fontFamily")) {
-  //   wordSpan.style.fontFamily = localStorage.getItem("fontFamily");
-  // }
-  // if (localStorage.getItem("color")) {
-  //   wordSpan.style.color = localStorage.getItem("color");
-  // }
-  // if (localStorage.getItem("background-color")) {
-  //   wordSpan.style.backgroundColor = localStorage.getItem("background-color");
-  // }
-  document.getElementById("words").appendChild(wordSpan);
+  if (i <= 13) {
+    document.getElementById("word-tier-1").appendChild(wordSpan);
+  } else if (i < 34) {
+    document.getElementById("word-tier-2").appendChild(wordSpan);
+  } else if (i >= 34) {
+    document.getElementById("word-tier-3").appendChild(wordSpan);
+  }
 };
 
 const fetchLeft = (search) => {
+  if (search === "") search = "tree";
   return axios
-    .get(`https://api.datamuse.com/words?rel_trg=${search}&max=20`)
+    .get(`https://api.datamuse.com/words?rel_trg=${search}&max=5`)
     .then((response) => response.data)
     .then((words) => arrayify(words))
     .then(async (wordsArray) => {
       const nextQuery = shuffle(wordsArray)[0];
 
       const secondQuery = await axios
-        .get(`https://api.datamuse.com/words?rel_trg=${nextQuery}&max=20`)
+        .get(`https://api.datamuse.com/words?rel_trg=${nextQuery}&max=5`)
         .then((response) => response.data)
         .then((words) => arrayify(words));
       const allLeft = wordsArray.concat(secondQuery);
-      //filter results to remove duplicates
       return allLeft.filter((word, i) => allLeft.indexOf(word) === i);
     })
     .then((wordsArray) => {
@@ -4143,8 +4145,9 @@ const fetchLeft = (search) => {
 };
 
 const fetchRight = async (search) => {
+  if (search === "") return [];
   const right = await axios
-    .get(`https://api.datamuse.com/words?rel_trg=${search}&max=40`)
+    .get(`https://api.datamuse.com/words?rel_trg=${search}&max=7`)
     .then((response) => response.data)
     .then((words) => {
       let wordsArray = [];
@@ -4157,8 +4160,9 @@ const fetchRight = async (search) => {
 };
 
 const fetchRhymes = async (search) => {
-  const result = await axios.get(
-    `https://api.datamuse.com/words?rel_rhy=${search}&max=10`
+  if (search === "") search = "tree";
+  const result = axios.get(
+    `https://api.datamuse.com/words?rel_rhy=${search}&max=7`
   ).then((response) => response.data).then((words) => {
     let wordsArray = [];
     words.forEach(wordObj => {
@@ -4235,11 +4239,10 @@ const drag = (id) => {
 
   const moveAt = (x, y) => {
     word.style.left = x - 60 + "px";
-    word.style.top = y - 50 + "px";
+    word.style.top = (y - 50) + "px";
   };
 
   const onMouseMove = (e) => {
-    console.log(e);
     moveAt(e.pageX, e.pageY);
     let elementBelow = document.elementFromPoint(e.clientX, e.clientY);
     if (!elementBelow) return;
@@ -4256,7 +4259,6 @@ const drag = (id) => {
     word.style.zIndex += 10;
     word.style.cursor = "grabbing";
     word.style.filter = "drop-shadow(3px 3px 3px grey)";
-    console.log(e);
     startMoveAt(e.x, e.y);
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseup);
