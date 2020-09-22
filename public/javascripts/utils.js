@@ -1,45 +1,50 @@
 const axios = require("axios");
 const d3 = require("d3-selection");
 
-export const BASIC_WORDS = "the the the s s with as more they be we she he it and any do why ing ed that and and very I I I most have had for not it it who is are is you you you".split(
+export const BASIC_WORDS = "the the the s s with as more they be we she he it and any do why ing ed that and and very I my most have had for not it it who is are is you you".split(
   " "
 );
 
 export const arrayify = (words) => {
   let wordsArray = [];
-    words.forEach((wordObj) => {
-      wordsArray.push(wordObj.word);
-    });
+  words.forEach((wordObj) => {
+    wordsArray.push(wordObj.word);
+  });
   return wordsArray;
 };
 
 export const addNewWord = (word, i) => {
   const wordSpan = document.createElement("span");
-  if (i <= 13) {
+  if (i <= 14 || (i >= 30 && i <= 50)) {
     wordSpan.className = "word green";
   }
   if (i < 34 && i >= 14) {
     wordSpan.className = "word orange";
   }
 
-  if (i >= 34) {
+  if (i >= 34 && i <= 55) {
     wordSpan.className = "word red";
   }
+  if (i > 55) {
+    wordSpan.className = "word brown";
+
+  }
+
   wordSpan.innerHTML = word;
 
   wordSpan.id = `word-${i}`;
   wordSpan.style.zIndex = 0;
-  if (i <= 13) {
+  if (i <= 16) {
     document.getElementById("word-tier-1").appendChild(wordSpan);
-  } else if (i < 34) {
+  } else if (i < 39) {
     document.getElementById("word-tier-2").appendChild(wordSpan);
-  } else if (i >= 34) {
+  } else if (i >= 39) {
     document.getElementById("word-tier-3").appendChild(wordSpan);
   }
 };
 
 export const fetchLeft = (search) => {
-  if (search === "") search = "tree";
+  if (search === "") search = "autumn";
   return axios
     .get(`https://api.datamuse.com/words?rel_trg=${search}&max=5`)
     .then((response) => response.data)
@@ -60,7 +65,7 @@ export const fetchLeft = (search) => {
 };
 
 export const fetchRight = async (search) => {
-  if (search === "") return [];
+  if (search === "") search = "write";
   const right = await axios
     .get(`https://api.datamuse.com/words?rel_trg=${search}&max=7`)
     .then((response) => response.data)
@@ -75,18 +80,19 @@ export const fetchRight = async (search) => {
 };
 
 export const fetchRhymes = async (search) => {
-  if (search === "") search = "tree";
-  const result = axios.get(
-    `https://api.datamuse.com/words?rel_rhy=${search}&max=7`
-  ).then((response) => response.data).then((words) => {
-    let wordsArray = [];
-    words.forEach(wordObj => {
-      wordsArray.push(wordObj.word)
+  if (search === "") search = "dog";
+  const result = axios
+    .get(`https://api.datamuse.com/words?rel_rhy=${search}&max=7`)
+    .then((response) => response.data)
+    .then((words) => {
+      let wordsArray = [];
+      words.forEach((wordObj) => {
+        wordsArray.push(wordObj.word);
+      });
+      return wordsArray;
     });
-    return wordsArray
-  });
   return result;
-}
+};
 
 export const generateTiles = (wordsArray) => {
   for (let i = wordsArray.length - 1; i >= 0; i--) {
@@ -113,13 +119,14 @@ export const shuffle = (wordArray) => {
 
 export const addCustomWord = (customForm) => {
   customForm.addEventListener("submit", (e) => {
+    console.log("hit");
     e.preventDefault();
     const customWord = document.getElementById("custom-word-input").value;
     if (customWord.length === 0) {
       displayError(" Enter a Word");
       return;
     }
-    const wordsDiv = document.getElementById("words");
+    const wordsDiv = document.getElementById("word-tier-3");
     const lastSpanId = wordsDiv.lastElementChild.id;
     const newWordIdx = parseInt(lastSpanId.split("-")[1]) + 2;
     addNewWord(customWord, newWordIdx);
@@ -134,7 +141,7 @@ export const addCustomWord = (customForm) => {
   });
 };
 const displayError = (error) => {
-  const alert = dcoument.getElementById("alert");
+  const alert = document.getElementById("alert");
   const alertText = document.getElementById("alert-text");
   alert.style.display = "block";
   alertText.innerHTML = error;
@@ -154,7 +161,7 @@ export const drag = (id) => {
 
   const moveAt = (x, y) => {
     word.style.left = x - 60 + "px";
-    word.style.top = (y - 50) + "px";
+    word.style.top = y - 30 + "px";
   };
 
   const onMouseMove = (e) => {
@@ -180,11 +187,45 @@ export const drag = (id) => {
   };
 };
 
+export const searchFormCallback = async (e) => {
+  e.preventDefault();
+  console.log("hit");
+  const leftWord = document.getElementById("noun-search").value;
+  const rightWord = document.getElementById("verb-search").value;
+  const rhymeWord = document.getElementById("rhyme-search").value;
+  await fetchLeft(leftWord)
+    .then(async (wordsArray) => {
+      const right = await fetchRight(rightWord);
+      const rhymes = await fetchRhymes(rhymeWord);
+      const all = wordsArray.concat(right).concat(rhymes);
+      return all;
+    })
+    .then((all) => {
+      const wordsDivOne = document.getElementById("word-tier-1");
+      const wordsDivTwo = document.getElementById("word-tier-2");
+      const wordsDivThree = document.getElementById("word-tier-3");
+
+      while (wordsDivOne.firstChild) {
+        wordsDivOne.removeChild(wordsDivOne.firstChild);
+      }
+      while (wordsDivTwo.firstChild) {
+        wordsDivTwo.removeChild(wordsDivTwo.firstChild);
+      }
+      while (wordsDivThree.firstChild) {
+        wordsDivThree.removeChild(wordsDivThree.firstChild);
+      }
+      all.forEach((word, i) => {
+        addNewWord(word, i);
+      });
+      all = shuffle(all);
+      generateTiles(all);
+    });
+};
+
 export const saveWord = (id) => {
   const savedText = document.getElementById("saved-text");
   savedText.innerHTML += " " + document.getElementById(id).textContent;
 };
-
 
 export const downloadToFile = (content, filename, contentType) => {
   const a = document.createElement("a");
@@ -196,5 +237,3 @@ export const downloadToFile = (content, filename, contentType) => {
 
   URL.revokeObjectURL(a.href);
 };
-
-
