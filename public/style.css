@@ -5,8 +5,9 @@ body {
   padding: 0;
   display: relative;
   /* background: rgba(47, 127, 124, 0.242); */
- background-color: #fce04390;
- background-image: linear-gradient(315deg, #fce043a1 0%, #fb7ba185 74%);
+  background-color: #fce04390;
+  background-image: linear-gradient(315deg, #fce043a1 0%, #fb7ba185 74%);
+  background-attachment: fixed;
 }
 
 .header {
@@ -49,7 +50,7 @@ body {
 .title {
   font-family: "Kaushan Script", cursive;
   font-size: 36px;
-  margin-left: 20px;
+  margin-left: 60px;
   line-height: 1px;
   margin-top: -15px;
 }
@@ -152,8 +153,8 @@ body {
 
 .green.word {
   /* border: 1px solid green; */
-  background: #44946B;
-  background: #6AA057
+  background: #44946b;
+  background: #6aa057;
 }
 
 .red.word {
@@ -164,6 +165,10 @@ body {
 .orange.word {
   /* border: 1px solid orange */
   background: #d45b12;
+}
+
+.brown.word {
+  background: #7c6159;
 }
 
 /* .drop-btn {
@@ -380,6 +385,6 @@ body {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  background: linear-gradient(to bottom right, transparent 49.5%, #9F815D 50%),
+  background: linear-gradient(to bottom right, transparent 49.5%, #9f815d 50%),
     linear-gradient(to bottom left, transparent 49.5%, #16343ec2 50%);
 }

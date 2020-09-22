@@ -9,6 +9,7 @@ import {
   shuffle,
   downloadToFile,
   fetchRhymes,
+  searchFormCallback,
 } from "./utils";
 
 // helpers
@@ -17,7 +18,7 @@ window.onload = async () => {
   localStorage.clear();
   const allWords = await fetchLeft("plant").then(async (wordsArray) => {
     const right = await fetchRight("write");
-    const rhymes = await fetchRhymes("log")
+    const rhymes = await fetchRhymes("log");
     //sorting algorithm for random shuffle Fisher-Yates Algorithm
     const all = shuffle(wordsArray.concat(right).concat(rhymes));
     return all;
@@ -30,45 +31,13 @@ window.onload = async () => {
   // format and place dom elements
   generateTiles(allWords);
 
-
-
   const customWordForm = document.getElementById("custom-word-form");
   addCustomWord(customWordForm);
   const searchForm = document.getElementById("search-form");
 
-
-
-
-
   searchForm.addEventListener("submit", async (e) => {
-    
-
-    e.preventDefault();
-    const leftWord = document.getElementById("noun-search").value;
-    const rightWord = document.getElementById("verb-search").value;
-    const rhymeWord = document.getElementById("rhyme-search").value;
-      await fetchLeft(leftWord)
-        .then(async (wordsArray) => {
-          const right = await fetchRight(rightWord);
-          const rhymes = await fetchRhymes(rhymeWord);
-          const all = wordsArray.concat(right).concat(rhymes);
-          return all;
-        })
-        .then((all) => {
-          const wordsDiv = document.getElementById("words");
-          while (wordsDiv.firstChild) {
-            wordsDiv.removeChild(wordsDiv.firstChild);
-          }
-          all.forEach((word, i) => {
-            addNewWord(word, i);
-          });
-          all = shuffle(all);
-          generateTiles(all);
-        });
-    })
-  
-
-  // movement functions
+    searchFormCallback(e);
+  });
 
   document.addEventListener("mouseover", (e) => {
     if (e.target.className.split(" ")[0] === "word") {
@@ -80,6 +49,11 @@ window.onload = async () => {
     if (e.target.className.split(" ")[0] === "word") {
       saveWord(e.target.id);
     }
+  });
+
+  const resetButton = document.getElementById("reset");
+  resetButton.addEventListener("click", async (e) => {
+    searchFormCallback(e);
   });
 
   const clearButton = document.getElementById("clear-saved-words");
