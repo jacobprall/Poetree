@@ -4,13 +4,22 @@ body {
   margin: 0;
   padding: 0;
   display: relative;
-  background: rgb(15,201,210);
-  background: linear-gradient(to top, rgba(133, 239, 245, 0.454) 9%, rgba(167, 240, 255, 0.529) 52%, rgba(249,254,255,1) 80%);
+  background: rgba(47, 127, 124, 0.242);
+  /* background: linear-gradient(
+    to top,
+    rgba(47, 127, 124, 0.488) 1%,
+    rgba(159, 232, 245, 0.529) 2%,
+    rgba(249, 254, 255, 1) 97%
+  ); */
 }
 
 .header {
-  background: rgb(255,255,255);
-background: linear-gradient(to top, rgba(255,255,255,1) 8%, rgba(250,210,104,1) 100%);
+  /* background: rgb(255, 255, 255);
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 1) 8%,
+    rgba(250, 210, 104, 1) 100%
+  ); */
   height: 70px;
   margin: 0;
   padding: 0;
@@ -91,12 +100,42 @@ background: linear-gradient(to top, rgba(255,255,255,1) 8%, rgba(250,210,104,1) 
   left: 100px;
 }
 
-#words {
+/* #words {
   position: absolute;
   width: 90%;
   height: 25%;
   left: 30px;
   top: 5%;
+} */
+
+#word-tier-1 {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#word-tier-2 {
+  width: 80%;
+  height: 60px;
+  margin-top: -20px;
+}
+
+#word-tier-3 {
+  width: 90%;
+  height: 60px;
+  margin-top: -20px;
+}
+
+.word-container {
+  position: absolute;
+  width: 100%;
+  height: 300px;
+  left: 30px;
+  top: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .word {
@@ -205,20 +244,24 @@ background: linear-gradient(to top, rgba(255,255,255,1) 8%, rgba(250,210,104,1) 
 .search {
   position: absolute;
   z-index: 1;
-  right: 67%;
-  top: 40%;
+  right: 63%;
+  top: 52%;
   padding: 5px;
   background: #996b428e;
   border-radius: 10px;
   font-family: "Roboto", sans-serif;
-  width: 200px;
+  width: 500px;
   padding-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 .search form {
   display: flex;
   flex-direction: column;
   color: white;
   font-weight: 600;
+  width: 40%;
 }
 
 .search form input {
@@ -339,7 +382,6 @@ background: linear-gradient(to top, rgba(255,255,255,1) 8%, rgba(250,210,104,1) 
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  background:
-   linear-gradient(to bottom right,transparent 49.5%,#996b42 50%),
-   linear-gradient(to bottom left,transparent 49.5%,#6e612f 50%);
+  background: linear-gradient(to bottom right, transparent 49.5%, #996b42 50%),
+    linear-gradient(to bottom left, transparent 49.5%, #131224ad 50%);
 }
