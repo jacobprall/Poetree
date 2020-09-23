@@ -16,7 +16,7 @@ import {
 
 window.onload = async () => {
   localStorage.clear();
-  const allWords = await fetchLeft("plant").then(async (wordsArray) => {
+  const allWords = await fetchLeft("autumn").then(async (wordsArray) => {
     const right = await fetchRight("write");
     const rhymes = await fetchRhymes("log");
     //sorting algorithm for random shuffle Fisher-Yates Algorithm

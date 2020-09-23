@@ -3980,7 +3980,7 @@ __webpack_require__.r(__webpack_exports__);
 
 window.onload = async () => {
   localStorage.clear();
-  const allWords = await Object(_utils__WEBPACK_IMPORTED_MODULE_0__["fetchLeft"])("plant").then(async (wordsArray) => {
+  const allWords = await Object(_utils__WEBPACK_IMPORTED_MODULE_0__["fetchLeft"])("autumn").then(async (wordsArray) => {
     const right = await Object(_utils__WEBPACK_IMPORTED_MODULE_0__["fetchRight"])("write");
     const rhymes = await Object(_utils__WEBPACK_IMPORTED_MODULE_0__["fetchRhymes"])("log");
     //sorting algorithm for random shuffle Fisher-Yates Algorithm
@@ -4073,30 +4073,26 @@ const arrayify = (words) => {
 
 const addNewWord = (word, i) => {
   const wordSpan = document.createElement("span");
-  if (i <= 14 || (i >= 30 && i <= 50)) {
+  if (i <= 22) {
     wordSpan.className = "word green";
   }
-  if (i < 34 && i >= 14) {
+  if (i < 52 && i >= 23) {
     wordSpan.className = "word orange";
   }
 
-  if (i >= 34 && i <= 55) {
+  if (i >= 52) {
     wordSpan.className = "word red";
-  }
-  if (i > 55) {
-    wordSpan.className = "word brown";
-
   }
 
   wordSpan.innerHTML = word;
 
   wordSpan.id = `word-${i}`;
   wordSpan.style.zIndex = 0;
-  if (i <= 16) {
+  if (i <= 22) {
     document.getElementById("word-tier-1").appendChild(wordSpan);
-  } else if (i < 39) {
+  } else if (i < 52) {
     document.getElementById("word-tier-2").appendChild(wordSpan);
-  } else if (i >= 39) {
+  } else if (i >= 52) {
     document.getElementById("word-tier-3").appendChild(wordSpan);
   }
 };
@@ -4104,7 +4100,7 @@ const addNewWord = (word, i) => {
 const fetchLeft = (search) => {
   if (search === "") search = "autumn";
   return axios
-    .get(`https://api.datamuse.com/words?rel_trg=${search}&max=5`)
+    .get(`https://api.datamuse.com/words?rel_trg=${search}&max=10`)
     .then((response) => response.data)
     .then((words) => arrayify(words))
     .then(async (wordsArray) => {
@@ -4125,7 +4121,7 @@ const fetchLeft = (search) => {
 const fetchRight = async (search) => {
   if (search === "") search = "write";
   const right = await axios
-    .get(`https://api.datamuse.com/words?rel_trg=${search}&max=7`)
+    .get(`https://api.datamuse.com/words?rel_trg=${search}&max=10`)
     .then((response) => response.data)
     .then((words) => {
       let wordsArray = [];
@@ -4140,7 +4136,7 @@ const fetchRight = async (search) => {
 const fetchRhymes = async (search) => {
   if (search === "") search = "dog";
   const result = axios
-    .get(`https://api.datamuse.com/words?rel_rhy=${search}&max=7`)
+    .get(`https://api.datamuse.com/words?rel_rhy=${search}&max=10`)
     .then((response) => response.data)
     .then((words) => {
       let wordsArray = [];
@@ -4192,8 +4188,8 @@ const addCustomWord = (customForm) => {
     const wordRect = document.getElementById(`word-${newWordIdx}`);
     const degrees = -3 + Math.random() * 6;
     wordRect.style.position = "absolute";
-    wordRect.style.left = "50px";
-    wordRect.style.top = "210px";
+    wordRect.style.left = "1000px";
+    wordRect.style.top = "400px";
     wordRect.style.zIndex = 2;
     wordRect.style.transform = `rotate(${degrees}deg)`;
   });

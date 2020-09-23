@@ -48,7 +48,7 @@ body {
 }
 
 .title {
-  font-family: "Kaushan Script", cursive;
+  font-family: "Courier Prime", monospace;
   font-size: 36px;
   margin-left: 60px;
   line-height: 1px;
@@ -108,19 +108,20 @@ body {
   width: 60%;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 10px;
   color: black;
 }
 
 #word-tier-2 {
   width: 80%;
   height: 60px;
-  margin-top: -20px;
+  margin-top: 30px;
 }
 
 #word-tier-3 {
   width: 90%;
   height: 60px;
-  margin-top: -20px;
+  margin-top: 30px;
 }
 
 .word-container {
@@ -148,7 +149,7 @@ body {
   box-sizing: border-box;
   font-variant-ligatures: no-common-ligatures;
 
-  font-family: "Times New Roman", Times, serif;
+  font-family: "Courier Prime", monospace;
 }
 
 .green.word {
@@ -201,7 +202,7 @@ body {
   z-index: 1;
   margin-left: 5px;
 } */
-#style-controls {
+/* #style-controls {
   position: absolute;
   right: 80%;
   top: 40%;
@@ -212,9 +213,9 @@ body {
   font-family: "Roboto", sans-serif;
   width: 200px;
   padding-bottom: 40px;
-}
+} */
 
-.dropdown {
+/* .dropdown {
   position: relative;
 }
 
@@ -230,7 +231,7 @@ body {
   background-color: white;
   width: 180px;
   /* min-width: 160px; */
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+/* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
   margin-left: 5px;
 }
@@ -241,7 +242,7 @@ body {
 
 .dropdown-content:hover {
   display: block;
-}
+} */
 
 .search {
   position: absolute;
@@ -295,6 +296,27 @@ body {
 
 #add-word-button:hover {
   background: #6e352c;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+#custom-word-form {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#reset {
+  padding: 10px;
+  border-radius: 5px;
+  border: 0px;
+  background: #6aa057;
+  color: white;
+}
+
+#reset:hover {
+  background: #447134;
   transition: 0.3s;
   cursor: pointer;
 }
@@ -354,7 +376,7 @@ body {
 
 #clear-saved-words:hover {
   transition: 0.3s;
-  background: #c2c290;
+  background: #9d9d5a;
   color: white;
   cursor: pointer;
 }
@@ -367,7 +389,7 @@ body {
 }
 
 #download-words:hover {
-  background: #4a572c;
+  background: #6aa057;
   color: white;
   transition: 0.3s;
   cursor: pointer;
