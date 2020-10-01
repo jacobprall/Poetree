@@ -233,3 +233,10 @@ export const downloadToFile = (content, filename, contentType) => {
 
   URL.revokeObjectURL(a.href);
 };
+
+
+export const shake = () => {
+  const tree = document.getElementById("tree");
+  tree.classList.add("shake");
+  setTimeout(() => { tree.classList.remove("shake")}, 1000)
+}
