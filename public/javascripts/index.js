@@ -9,7 +9,7 @@ import {
   shuffle,
   downloadToFile,
   fetchRhymes,
-  searchFormCallback,
+  searchFormCallback, shake
 } from "./utils";
 
 // helpers
@@ -53,6 +53,7 @@ window.onload = async () => {
 
   const resetButton = document.getElementById("reset");
   resetButton.addEventListener("click", async (e) => {
+    shake();
     searchFormCallback(e);
   });
 

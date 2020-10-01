@@ -4017,6 +4017,7 @@ window.onload = async () => {
 
   const resetButton = document.getElementById("reset");
   resetButton.addEventListener("click", async (e) => {
+    Object(_utils__WEBPACK_IMPORTED_MODULE_0__["shake"])();
     Object(_utils__WEBPACK_IMPORTED_MODULE_0__["searchFormCallback"])(e);
   });
 
@@ -4038,7 +4039,7 @@ window.onload = async () => {
 /*!*************************************!*\
   !*** ./public/javascripts/utils.js ***!
   \*************************************/
-/*! exports provided: BASIC_WORDS, arrayify, addNewWord, fetchLeft, fetchRight, fetchRhymes, generateTiles, shuffle, addCustomWord, drag, searchFormCallback, saveWord, downloadToFile */
+/*! exports provided: BASIC_WORDS, arrayify, addNewWord, fetchLeft, fetchRight, fetchRhymes, generateTiles, shuffle, addCustomWord, drag, searchFormCallback, saveWord, downloadToFile, shake */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4056,6 +4057,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "searchFormCallback", function() { return searchFormCallback; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "saveWord", function() { return saveWord; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "downloadToFile", function() { return downloadToFile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shake", function() { return shake; });
 const axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 const d3 = __webpack_require__(/*! d3-selection */ "./node_modules/d3-selection/src/index.js");
 
@@ -4292,6 +4294,12 @@ const downloadToFile = (content, filename, contentType) => {
   URL.revokeObjectURL(a.href);
 };
 
+
+const shake = () => {
+  const tree = document.getElementById("tree");
+  tree.classList.add("shake");
+  setTimeout(() => { tree.classList.remove("shake")}, 1000)
+}
 
 /***/ })
 
