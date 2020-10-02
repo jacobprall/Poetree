@@ -33,11 +33,19 @@ window.onload = async () => {
 
   const customWordForm = document.getElementById("custom-word-form");
   addCustomWord(customWordForm);
+
+
   const searchForm = document.getElementById("search-form");
 
   searchForm.addEventListener("submit", async (e) => {
     searchFormCallback(e);
   });
+
+  const searchButton = document.getElementById("search-button");
+  searchButton.addEventListener("click", (e) => {
+    shake();
+  })
+  
 
   document.addEventListener("mouseover", (e) => {
     if (e.target.className.split(" ")[0] === "word") {

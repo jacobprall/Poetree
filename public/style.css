@@ -97,7 +97,7 @@ body {
   100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
-.shake:hover {
+.shake {
   animation: shake 0.5s;
   animation-iteration-count: infinite;
 }
