@@ -3997,11 +3997,19 @@ window.onload = async () => {
 
   const customWordForm = document.getElementById("custom-word-form");
   Object(_utils__WEBPACK_IMPORTED_MODULE_0__["addCustomWord"])(customWordForm);
+
+
   const searchForm = document.getElementById("search-form");
 
   searchForm.addEventListener("submit", async (e) => {
     Object(_utils__WEBPACK_IMPORTED_MODULE_0__["searchFormCallback"])(e);
   });
+
+  const searchButton = document.getElementById("search-button");
+  searchButton.addEventListener("click", (e) => {
+    Object(_utils__WEBPACK_IMPORTED_MODULE_0__["shake"])();
+  })
+  
 
   document.addEventListener("mouseover", (e) => {
     if (e.target.className.split(" ")[0] === "word") {
@@ -4294,12 +4302,14 @@ const downloadToFile = (content, filename, contentType) => {
   URL.revokeObjectURL(a.href);
 };
 
-
 const shake = () => {
   const tree = document.getElementById("tree");
   tree.classList.add("shake");
-  setTimeout(() => { tree.classList.remove("shake")}, 1000)
-}
+  setTimeout(() => {
+    tree.classList.remove("shake");
+  }, 800);
+};
+
 
 /***/ })
 
